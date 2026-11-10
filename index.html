@@ -127,10 +127,10 @@ footer {
     </div>
 
     <input
-        type="text"
-        id="installedVersion"
-        placeholder="Versión instalada (ej. V1.2 Beta3)"
-    >
+    type="text"
+    id="installedVersion"
+    placeholder="Pega el resultado del comando INFO"
+>
 
     <button onclick="checkUpdate()">
         Buscar actualizaciones
@@ -273,11 +273,17 @@ async function checkUpdate() {
     button.style.display = "none";
     message.textContent = "Comprobando...";
 
-    const installed = parseVersion(
-        input.replace(/\s+/g, "")
-            .replace(/^V(\d+\.\d+)(?:Beta(\d+))?$/i,
-                (_, version, beta) =>
-                    `GFunction-Lite_V${version}${beta ? "_Beta" + beta : ""}.txt`)
+    const match = input.match(
+    /^GFunction Lite V(\d+)\.(\d+)(?:\.(\d+))?(?: Beta\s*(\d+))?(?: (Trial Test))?$/i
+);
+
+const installed = match ? {
+    major: Number(match[1]),
+    minor: Number(match[2]),
+    patch: Number(match[3] || 0),
+    beta: match[4] !== undefined ? Number(match[4]) : null,
+    trialTest: Boolean(match[5])
+} : null;
     );
 
     if (!installed) {
