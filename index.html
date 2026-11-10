@@ -284,7 +284,6 @@ const installed = match ? {
     beta: match[4] !== undefined ? Number(match[4]) : null,
     trialTest: Boolean(match[5])
 } : null;
-    );
 
     if (!installed) {
         message.textContent = "Introduce una versión válida. Ejemplo: V1.2 Beta3";
